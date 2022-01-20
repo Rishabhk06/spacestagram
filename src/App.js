@@ -23,76 +23,92 @@ class App extends Component {
     super();
 
     this.state = {
-      pokemon: [],
-      pokedetails: {},
+      images: [],
+      loading: true,
     };
   }
 
   componentDidMount() {
     axios
       .get(
-        "https://api.nasa.gov/planetary/apod?api_key=QiD1g5VohUdH3ov1DQiswSYcS6BZx8Vi64t6JrGW&count=10"
+        "https://api.nasa.gov/planetary/apod?api_key=QiD1g5VohUdH3ov1DQiswSYcS6BZx8Vi64t6JrGW&count=20"
       )
       .then((result) => {
         const items = result.data;
-        const pokemon = items.map((item, index) => {
+        const images = items.map((item, index) => {
           return {
-            ...item,
+            details: item,
             liked: false,
           };
         });
-        this.setState({ pokemon: pokemon });
+        this.setState({ images, loading: false });
       })
       .catch((err) => {
         console.log(err);
+        this.setState({ loading: false });
       });
   }
 
-  handleLike = (item) => {
-    item.liked = !item.liked;
+  // componentDidUpdate() {
+  //   localStorage.setItem("likeRecord", JSON.stringify(this.state.images));
+  // }
 
-    this.setState((prevState) => ({
-      ...prevState,
-      liked: !prevState.liked,
-    }));
+  // componentWillUnmount() {
+  //   console.log("componentWillUnmount");
+  //   localStorage.removeItem("likeRecord");
+  // }
+
+  handleLike = (item, index) => {
+    let currentState = [...this.state.images];
+    currentState[index] = {
+      ...item,
+      liked: !item.liked,
+    };
+    this.setState({
+      images: currentState,
+    });
+
+    console.log("handleLike", item, index);
   };
 
   render() {
-    console.log("hello", this.state.pokemon);
-
     return (
       <div className="div">
-        <AppBar>
-          <Toolbar>
+        <AppBar position="static" sx={{ backgroundColor: "black" }}>
+          <Toolbar sx={{ justifyContent: "space-between" }}>
             <Typography variant="h3">Spacetagram</Typography>
+            {/* <Typography variant="subtitle1">Explore the Unexplored</Typography> */}
+            <Typography variant="subtitle1">Powered by NASA API</Typography>
           </Toolbar>
         </AppBar>
         {/* // <Container sx={{ margin: "50px 50px" }}> */}
-        <Grid className="grid" container spacing={3} padding={3} marginTop={4}>
-          {this.state.pokemon.map((item, index) => {
-            console.log("item", item.liked);
+        <Grid
+          className="grid"
+          container
+          spacing={3}
+          padding={3}
+          sx={{ backgroundColor: "gray", marginTop: "0" }}
+        >
+          {this.state.images.map((item, index) => {
             return (
               <Grid item key={index} xs={6} sm={4} md={3}>
                 <Card raised>
                   <CardMedia
-                    image={item.url}
+                    image={item.details.url}
                     sx={{ height: "250px" }}
                   ></CardMedia>
                   <CardContent>
                     <Typography variant="h6" fontWeight="bold" align="center">
-                      {item.title}
+                      {item.details.title}
                     </Typography>
                     <Typography variant="subtitle1" align="center">
-                      {item.date}
+                      {item.details.date}
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <IconButton>
+                    <IconButton onClick={() => this.handleLike(item, index)}>
                       {item.liked ? (
-                        <FavoriteIcon
-                          onClick={(item) => this.handleLike(item)}
-                          sx={{ color: "red" }}
-                        />
+                        <FavoriteIcon sx={{ color: "red" }} />
                       ) : (
                         <FavoriteBorderIcon />
                       )}
