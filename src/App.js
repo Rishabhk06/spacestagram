@@ -17,6 +17,7 @@ import {
   listItemIconClasses,
 } from "@mui/material";
 import { Component } from "react";
+import backgroundImage from "./stars.jpeg";
 
 class App extends Component {
   constructor() {
@@ -25,6 +26,7 @@ class App extends Component {
     this.state = {
       images: [],
       loading: true,
+      likedImages: [],
     };
   }
 
@@ -49,9 +51,10 @@ class App extends Component {
       });
   }
 
-  // componentDidUpdate() {
-  //   localStorage.setItem("likeRecord", JSON.stringify(this.state.images));
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    console.log("componentDidUpdate", prevState);
+    // localStorage.setItem("likeRecord", JSON.stringify(this.state.images));
+  }
 
   // componentWillUnmount() {
   //   console.log("componentWillUnmount");
@@ -64,11 +67,21 @@ class App extends Component {
       ...item,
       liked: !item.liked,
     };
+    //show only liked images
+    console.log("isliked?", item.liked);
+    let currentLikedImages = this.state.likedImages;
+    if (!item.liked) {
+      currentLikedImages.push(item.details);
+    } else {
+      //Remove image from likedImages in state
+      let indexUnlikedImage = currentLikedImages.indexOf(item.details.title);
+      currentLikedImages.splice(indexUnlikedImage, 1);
+    }
+
     this.setState({
       images: currentState,
+      likedImages: currentLikedImages,
     });
-
-    console.log("handleLike", item, index);
   };
 
   render() {
@@ -76,7 +89,9 @@ class App extends Component {
       <div className="div">
         <AppBar position="static" sx={{ backgroundColor: "black" }}>
           <Toolbar sx={{ justifyContent: "space-between" }}>
-            <Typography variant="h3">Spacetagram</Typography>
+            <Typography variant="h3" fontFamily="cursive">
+              Spacetagram
+            </Typography>
             {/* <Typography variant="subtitle1">Explore the Unexplored</Typography> */}
             <Typography variant="subtitle1">Powered by NASA API</Typography>
           </Toolbar>
@@ -87,7 +102,7 @@ class App extends Component {
           container
           spacing={3}
           padding={3}
-          sx={{ backgroundColor: "gray", marginTop: "0" }}
+          sx={{ backgroundImage: `url(${backgroundImage})`, marginTop: "0" }}
         >
           {this.state.images.map((item, index) => {
             return (
