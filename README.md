@@ -1,6 +1,6 @@
 # Spacestagram
 
-Spacestagram is a space image-gallery designed for Shopify Intern Challenege 2022. It is a responsive gallery designed for web in particular. It queries NASA Astronomy Picture of The Day(APOD) API to extract random images and display their information in a beautiful interface. It is developed in React.js and Material-UI and allows user to like and unlike images.
+Spacestagram is a space image-gallery designed for Shopify Intern Challenege 2022. It is a responsive web application that queries NASA Astronomy Picture of The Day(APOD) API to extract random images and display their information in a beautiful interface. It is developed in React.js and Material-UI and allows users to like and unlike images.
 
 # Links
 

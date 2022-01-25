@@ -1,7 +1,7 @@
 import axios from "axios";
 import GridDisplay from "./gridDisplay";
 import { Component } from "react";
-
+import Animation from "./animation";
 import { BrowserRouter, Route, Link, Routes } from "react-router-dom";
 
 class App extends Component {
@@ -16,10 +16,12 @@ class App extends Component {
   }
 
   componentDidMount() {
+    //load likedImages from localStorage
+    let localStorageImages = this.getLocalStorageData();
+
+    let apiKey = "QiD1g5VohUdH3ov1DQiswSYcS6BZx8Vi64t6JrGW";
     axios
-      .get(
-        "https://api.nasa.gov/planetary/apod?api_key=QiD1g5VohUdH3ov1DQiswSYcS6BZx8Vi64t6JrGW&count=20"
-      )
+      .get(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=60`)
       .then((result) => {
         const items = result.data;
         const images = items.map((item, index) => {
@@ -28,7 +30,11 @@ class App extends Component {
             liked: false,
           };
         });
-        this.setState({ images, loading: false });
+        this.setState({
+          images,
+          loading: false,
+          likedImages: localStorageImages,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -43,13 +49,15 @@ class App extends Component {
       liked: !item.liked,
     };
     //store liked images
-    console.log("isliked?", item.liked);
     let currentLikedImages = this.state.likedImages;
     if (!item.liked) {
-      currentLikedImages.push({ details: item.details });
+      currentLikedImages.push({ liked: !item.liked, details: item.details });
     } else {
       //Remove image from likedImages in state
-      let indexUnlikedImage = currentLikedImages.indexOf(item.details.title);
+      let indexUnlikedImage = currentLikedImages.findIndex(
+        (image) => image.details.title === item.details.title
+      );
+
       currentLikedImages.splice(indexUnlikedImage, 1);
     }
 
@@ -57,6 +65,18 @@ class App extends Component {
       images: currentState,
       likedImages: currentLikedImages,
     });
+
+    //save in localStorage for page refresh
+    localStorage.setItem("likedImages", JSON.stringify(currentLikedImages));
+  };
+
+  getLocalStorageData = () => {
+    let localStorageData = localStorage.getItem("likedImages");
+    if (localStorageData) {
+      return JSON.parse(localStorageData);
+    } else {
+      console.log("No liked images in localstorage");
+    }
   };
 
   render() {
@@ -68,6 +88,7 @@ class App extends Component {
             element={
               <GridDisplay
                 images={this.state.images}
+                loading={this.state.loading}
                 handleLike={this.handleLike}
               />
             }
@@ -77,6 +98,7 @@ class App extends Component {
             element={
               <GridDisplay
                 images={this.state.likedImages}
+                loading={this.state.loading}
                 handleLike={this.handleLike}
               />
             }
