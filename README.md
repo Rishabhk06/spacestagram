@@ -1,18 +1,40 @@
 # Spacestagram
 
-Spacestagram is a space image-gallery designed for Shopify Intern Challenege 2022. It is a responsive web application that queries NASA Astronomy Picture of The Day(APOD) API to extract random images and display their information in a beautiful interface. It is developed in React.js and Material-UI and allows users to like and unlike images.
+Spacestagram is a space image gallery designed for Shopify Intern Challenge 2022. It is a responsive web application that queries NASA Astronomy Picture of The Day(APOD) API to extract random images and display their information in a beautiful interface. It is developed in React.js and Material-UI and allows users to like and unlike images.
 
-# Links
+## Features
+- [x] Users can like and unlike images using the animated heart icon.
+- [x] Liked images are stored even if the user leaves or reloads the page.
+- [x] Infinite Stars loading state animation while the data is fetched from the API.
+- [x] Seemless navigation to My-Likes and Spacetagram homepage using React-Router.
+
+## Links
 
 - [CodeSandBox](http://codesandbox.io/s/spacestagram-shopify-ltyp2 "CodeSandBox")
 - [Github Repo](https://github.com/Rishabhk06/spacestagram "Github Repo")
 
-# Screenshots
+## Screenshots
 
-### - Interface Preview
+- ### Home Page
 
-<img width="1429" alt="Screenshot 2022-01-20 at 8 23 03 PM" src="https://user-images.githubusercontent.com/76654144/150362889-22b14d4f-f8af-407a-a355-363901af92b9.png">
+![](src/screenshots/home_page.png)
 
-### - Responsiveness
+- ### My Likes
 
-<img width="821" alt="Screenshot 2022-01-20 at 8 27 26 PM" src="https://user-images.githubusercontent.com/76654144/150363419-71e5e95e-e28c-4622-8610-eb529561b797.png">
+![](src/screenshots/liked_images.png)
+
+- ### Infinite Stars loading state animation
+
+![](src/screenshots/loading_state.png)
+
+- ### Responsiveness
+
+![](src/screenshots/responsive.png)
+
+## Installation
+1. Clone the repository or download the zip file.
+2. Setup your local environment.
+3. Change the terminal directory using `cd spacetagram`.
+4. Install the dependencies using `npm install`.
+5. Run command `npm start` to start the application.
+
