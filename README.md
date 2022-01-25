@@ -10,7 +10,7 @@ Spacestagram is a space image gallery designed for Shopify Intern Challenge 2022
 
 ## Links
 
-- [CodeSandBox](http://codesandbox.io/s/spacestagram-shopify-ltyp2 "CodeSandBox")
+- [CodeSandBox](https://codesandbox.io/s/spacetagram-li9c3 "CodeSandBox")
 - [Github Repo](https://github.com/Rishabhk06/spacestagram "Github Repo")
 
 ## Screenshots
