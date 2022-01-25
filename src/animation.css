@@ -1,0 +1,42 @@
+.starfield {
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.star {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 1vw white;
+  background: white;
+
+  animation: star var(--speed) linear infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes star {
+  from {
+    transform: rotateZ(var(--rotation)) translateY(0) scale(0);
+  }
+  to {
+    transform: rotateZ(var(--rotation)) translateY(100vw) scale(var(--scale));
+  }
+}
+
+.quote {
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+}
